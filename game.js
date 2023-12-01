@@ -13,11 +13,41 @@ function getRandomInt(max) {
 /**
  * A list of valid plays to chose from in our game
  */
-const validPlays = [
+const VALID_PLAYS = [
     'rock',
     'paper',
     'scissors'
 ];
+
+
+/**
+ * A lookup object used to convert valid plays to display values
+ */
+const DISPLAY_LOOKUP = {
+    'rock': 'Rock',
+    'paper': 'Paper',
+    'scissors': 'Scissors'
+}
+
+
+/**
+ * A lookup object used to determine what combination of valid plays results in a win
+ * Undefined equals a tie
+ */
+const WIN_LOOKUP = {
+    rock:{
+        paper: false,
+        scissors: true
+    },
+    paper: {
+        scissors: false,
+        rock: true
+    },
+    scissors: {
+        rock: false,
+        paper: true
+    }
+};
 
 
 /**
@@ -26,8 +56,34 @@ const validPlays = [
  * @returns A string containing either 'rock', 'paper', or 'scissors' to indicate the computers play.
  */
 function getComputerChoice () {
-    const choice = getRandomInt(validPlays.length);
+    const choice = getRandomInt(VALID_PLAYS.length);
 
-    return validPlays[choice];
+    return VALID_PLAYS[choice];
 }
 
+
+/**
+ * Plays a round of the game.
+ * 
+ * @param { 'rock' | 'paper' | 'scissors' } playerSelection The shape thrown by the player
+ * @param { 'rock' | 'paper' | 'scissors' } computerSelection The shape thrown by the computer
+ * @returns false if the round was a tie, otherwise a string indicating what happened.
+ */
+function playRound(playerSelection, computerSelection) {
+    playerSelection = playerSelection.toLowerCase().trim();
+    computerSelection = computerSelection.toLowerCase();
+
+    if (playerSelection === computerSelection) {
+        // TIE, round must be replaced
+        return false;
+    }
+
+    const isPlayerWin = WIN_LOOKUP[ playerSelection ][ computerSelection] ;
+
+    return isPlayerWin ? `You Win! ${ DISPLAY_LOOKUP[playerSelection] } beats ${ DISPLAY_LOOKUP[computerSelection] }` : `You Lose! ${ DISPLAY_LOOKUP[computerSelection] } beats ${ DISPLAY_LOOKUP[playerSelection] }`;
+}
+   
+
+  const playerSelection = "rock ";
+  const computerSelection = getComputerChoice();
+  console.log(playRound(playerSelection, computerSelection))
