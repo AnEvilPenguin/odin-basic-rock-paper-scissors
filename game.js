@@ -80,3 +80,49 @@ function playRound(playerSelection, computerSelection) {
 
     return +WIN_LOOKUP[ playerSelection ][ computerSelection ];
 }
+
+
+/**
+ * Plays a game of rock, paper, scissors.
+ * 
+ * @returns true if the player has won, false if they have lost.
+ */
+function game() {
+    const BEST_OF = 5;
+
+    let continueGame = true;
+    let validGames = 0;
+    let score = 0;
+
+    do {
+        const computerSelection = getComputerChoice();
+        const playerSelection = prompt('Select your play (rock, paper, or scissors)').toLowerCase().trim();
+
+        if (!VALID_PLAYS.includes(playerSelection)) {
+            console.log('Invalid selection. Expected one of: "rock", "paper", or "scissors".');
+            continue;
+        }
+
+        const result = playRound(playerSelection, computerSelection);
+
+        if (result === false) {
+            console.log('TIE game!');
+        } else if (result) {
+            console.log(`You Win! ${ DISPLAY_LOOKUP[playerSelection] } beats ${ DISPLAY_LOOKUP[computerSelection] }`);
+            score++;
+            validGames++;
+        } else {
+            console.log(`You Lose! ${ DISPLAY_LOOKUP[computerSelection] } beats ${ DISPLAY_LOOKUP[playerSelection] }`);
+            validGames++;
+        }
+
+        if (validGames === BEST_OF) {
+            continueGame = false;
+        }
+
+    } while(continueGame);
+    
+    console.log(`Score: ${score}/${validGames}`);
+
+    return score > validGames / 2;
+}
