@@ -10,21 +10,24 @@ function getRandomInt(max) {
 }
 
 
-const choiceMap = new Map([
-    [0, 'Rock'],
-    [1, 'Paper'],
-    [2, 'Scissors']
-]);
+/**
+ * A list of valid plays to chose from in our game
+ */
+const validPlays = [
+    'rock',
+    'paper',
+    'scissors'
+];
 
 
 /**
  * Generates a play for the computer.
  * 
- * @returns A string containing either 'Rock', 'Paper', or 'Scissors' to indicate the computers play.
+ * @returns A string containing either 'rock', 'paper', or 'scissors' to indicate the computers play.
  */
 function getComputerChoice () {
-    const choice = getRandomInt(3);
+    const choice = getRandomInt(validPlays.length);
 
-    return choiceMap.get(choice);
+    return validPlays[choice];
 }
 
