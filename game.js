@@ -67,7 +67,7 @@ function getComputerChoice () {
  * 
  * @param { 'rock' | 'paper' | 'scissors' } playerSelection The shape thrown by the player
  * @param { 'rock' | 'paper' | 'scissors' } computerSelection The shape thrown by the computer
- * @returns false if the round was a tie, otherwise a string indicating what happened.
+ * @returns false if the round was a tie, 1 if the player wins, 0 if the player loses.
  */
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase().trim();
@@ -78,14 +78,5 @@ function playRound(playerSelection, computerSelection) {
         return false;
     }
 
-    const isPlayerWin = WIN_LOOKUP[ playerSelection ][ computerSelection] ;
-
-    return isPlayerWin ? 
-        `You Win! ${ DISPLAY_LOOKUP[playerSelection] } beats ${ DISPLAY_LOOKUP[computerSelection] }` :
-        `You Lose! ${ DISPLAY_LOOKUP[computerSelection] } beats ${ DISPLAY_LOOKUP[playerSelection] }` ;
+    return +WIN_LOOKUP[ playerSelection ][ computerSelection ];
 }
-   
-
-  const playerSelection = "rock ";
-  const computerSelection = getComputerChoice();
-  console.log(playRound(playerSelection, computerSelection))
