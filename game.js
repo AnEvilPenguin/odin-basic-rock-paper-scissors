@@ -80,7 +80,9 @@ function playRound(playerSelection, computerSelection) {
 
     const isPlayerWin = WIN_LOOKUP[ playerSelection ][ computerSelection] ;
 
-    return isPlayerWin ? `You Win! ${ DISPLAY_LOOKUP[playerSelection] } beats ${ DISPLAY_LOOKUP[computerSelection] }` : `You Lose! ${ DISPLAY_LOOKUP[computerSelection] } beats ${ DISPLAY_LOOKUP[playerSelection] }`;
+    return isPlayerWin ? 
+        `You Win! ${ DISPLAY_LOOKUP[playerSelection] } beats ${ DISPLAY_LOOKUP[computerSelection] }` :
+        `You Lose! ${ DISPLAY_LOOKUP[computerSelection] } beats ${ DISPLAY_LOOKUP[playerSelection] }` ;
 }
    
 
