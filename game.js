@@ -38,6 +38,10 @@ const WIN_LOOKUP = {
 };
 
 
+/** Defines the default 'best-of' game limit */
+const DEFAULT_BEST_OF_GAMES = 5;
+
+
 /** Indicates whether a long running game is finished or not */
 let continueGame;
 /** Keeps track of how many valid games have been played */
@@ -178,7 +182,7 @@ function getTextFromElement(query) {
  *     button selected by the user. Taken to be the users 'play'
  */
 function playButtonClicked(buttonName) {
-    if (continueGame == null) {
+    if (continueGame == null || validGames === DEFAULT_BEST_OF_GAMES) {
         newGame();
     }
 
@@ -193,8 +197,15 @@ function playButtonClicked(buttonName) {
 
     const scoreText = getTextFromElement('div.score');
 
-    const { message } = getScore();
-    scoreText.innerText = message;
+    const { message, isPlayerWinning } = getScore();
+    
+    if (validGames === DEFAULT_BEST_OF_GAMES) {
+        scoreText.innerText = isPlayerWinning ?
+            'You Win! ' + message :
+            'You Lose! ' + message;
+    } else {
+        scoreText.innerText = message;
+    }
 }
 
 
@@ -216,7 +227,7 @@ playButtonArray.forEach((button) => {
  * @returns true if the player has won, false if they have lost
  * @error throws if bestOf not odd number
  */
-function game(bestOf = 5) {
+function game(bestOf = DEFAULT_BEST_OF_GAMES) {
     if (typeof bestOf !== 'number' || bestOf % 2 === 0) {
         throw new Error('bestOf required to be odd number');
     }
