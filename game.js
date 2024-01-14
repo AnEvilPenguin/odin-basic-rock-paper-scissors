@@ -152,24 +152,28 @@ function playButtonClicked(buttonName) {
     const computerSelection = getComputerChoice();
     const playerSelection = buttonName.toLowerCase();
 
-    const { divElement: resultDiv, textElement: resultText } = getTextFromDiv('div.results');
+    const resultText = getTextFromElement('div.results');
 
     const result = playRound(playerSelection, computerSelection);
 
     resultText.innerText = processGameResult(result, playerSelection, computerSelection);
 
-    resultDiv.appendChild(resultText);
-
-    const { divElement: scoreDiv, textElement: scoreText } = getTextFromDiv('div.score');
+    const scoreText = getTextFromElement('div.score');
 
     const { message } = getScore();
     scoreText.innerText = message;
-
-    scoreDiv.appendChild(scoreText)
 }
 
 
-function getTextFromDiv(query) {
+/**
+ * Takes a query string to select an element, removes the first child
+ *     text element, creates a new text element and appends it to the 
+ *     parent element.
+ * 
+ * @param {String} query 
+ * @returns 
+ */
+function getTextFromElement(query) {
     const div = document.querySelector(query);
     const existingText = div.querySelector('p');
 
@@ -178,7 +182,10 @@ function getTextFromDiv(query) {
     }
 
     const newText = document.createElement('p');
-    return { divElement: div, textElement: newText };
+
+    div.appendChild(newText);
+
+    return newText;
 }
 
 const playButtonList = document.querySelectorAll('button.play');
