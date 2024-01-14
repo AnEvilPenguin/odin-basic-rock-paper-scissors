@@ -154,9 +154,45 @@ function getScore() {
 
 
 function playButtonClicked(buttonName) {
-    console.log(buttonName);
-    // TODO play round
-    // TODO update response
+    if (continueGame == null) {
+        initGame();
+    }
+
+    const computerChoice = getComputerChoice();
+    const playerChoice = buttonName.toLowerCase();
+
+    const resultDiv = document.querySelector('div.results');
+    const existingText = resultDiv.querySelector('p');
+
+    if (existingText) {
+        resultDiv.removeChild(existingText);
+    }
+
+    const result = playRound(playerChoice, computerChoice);
+
+    const newText = document.createElement('p');
+
+    switch (result) {
+        case false: {
+            newText.innerText = 'TIE game!';
+            break;
+        }
+        case 1: {
+            newText.innerText = `You Win! ${ DISPLAY_LOOKUP[playerChoice] } beats ${ DISPLAY_LOOKUP[computerChoice] }`;
+            score++;
+            validGames++;
+            break;
+        }
+        case 0: {
+            newText.innerText = `You Lose! ${ DISPLAY_LOOKUP[computerChoice] } beats ${ DISPLAY_LOOKUP[playerChoice] }`;
+            validGames++;
+            break;
+        }
+    }
+
+    resultDiv.appendChild(newText);
+
+
     // TODO update score
 }
 
