@@ -151,3 +151,18 @@ function getScore() {
         isPlayerWinning: score > validGames / 2
     }
 }
+
+
+function playButtonClicked(buttonName) {
+    console.log(buttonName);
+    // TODO play round
+    // TODO update response
+    // TODO update score
+}
+
+const playButtonList = document.querySelectorAll('button.play');
+const playButtonArray = Array.from(playButtonList);
+
+playButtonArray.forEach((button) => {
+    button.addEventListener('click', () => playButtonClicked(button.innerText));
+});
