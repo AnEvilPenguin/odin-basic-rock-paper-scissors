@@ -109,16 +109,7 @@ function game(bestOf = 5) {
 
         const result = playRound(playerSelection, computerSelection);
 
-        if (result === false) {
-            console.log('TIE game!');
-        } else if (result) {
-            console.log(`You Win! ${ DISPLAY_LOOKUP[playerSelection] } beats ${ DISPLAY_LOOKUP[computerSelection] }`);
-            score++;
-            validGames++;
-        } else {
-            console.log(`You Lose! ${ DISPLAY_LOOKUP[computerSelection] } beats ${ DISPLAY_LOOKUP[playerSelection] }`);
-            validGames++;
-        }
+        console.log(processGameResult(result, playerChoice, computerChoice));
 
         if (validGames === bestOf) {
             continueGame = false;
@@ -171,24 +162,7 @@ function playButtonClicked(buttonName) {
     const result = playRound(playerChoice, computerChoice);
 
     const newText = document.createElement('p');
-
-    switch (result) {
-        case false: {
-            newText.innerText = 'TIE game!';
-            break;
-        }
-        case 1: {
-            newText.innerText = `You Win! ${ DISPLAY_LOOKUP[playerChoice] } beats ${ DISPLAY_LOOKUP[computerChoice] }`;
-            score++;
-            validGames++;
-            break;
-        }
-        case 0: {
-            newText.innerText = `You Lose! ${ DISPLAY_LOOKUP[computerChoice] } beats ${ DISPLAY_LOOKUP[playerChoice] }`;
-            validGames++;
-            break;
-        }
-    }
+    newText.innerText = processGameResult(result, playerChoice, computerChoice);
 
     resultDiv.appendChild(newText);
 
@@ -202,3 +176,21 @@ const playButtonArray = Array.from(playButtonList);
 playButtonArray.forEach((button) => {
     button.addEventListener('click', () => playButtonClicked(button.innerText));
 });
+
+
+function processGameResult(result, playerChoice, computerChoice) {
+    switch (result) {
+        case false: {
+            return 'TIE game!';
+        }
+        case 1: {
+            score++;
+            validGames++;
+            return `You Win! ${DISPLAY_LOOKUP[playerChoice]} beats ${DISPLAY_LOOKUP[computerChoice]}`;
+        }
+        case 0: {
+            validGames++;
+            return `You Lose! ${DISPLAY_LOOKUP[computerChoice]} beats ${DISPLAY_LOOKUP[playerChoice]}`;
+        }
+    }
+}
