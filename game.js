@@ -85,14 +85,18 @@ function playRound(playerSelection, computerSelection) {
 /**
  * Plays a game of rock, paper, scissors.
  * 
+ * @param {?Number} bestOf sets the number of games to be played. 
+ *     Defaults to 5, assumes number is odd.
+ * 
  * @returns true if the player has won, false if they have lost.
+ * @error throws if bestOf not odd number.
  */
-function game() {
-    const BEST_OF = 5;
+function game(bestOf = 5) {
+    if (typeof bestOf !== 'number' || bestOf % 2 === 0) {
+        throw new Error('bestOf required to be odd number');
+    }
 
-    let continueGame = true;
-    let validGames = 0;
-    let score = 0;
+    initGame();
 
     do {
         const computerSelection = getComputerChoice();
@@ -116,13 +120,34 @@ function game() {
             validGames++;
         }
 
-        if (validGames === BEST_OF) {
+        if (validGames === bestOf) {
             continueGame = false;
         }
 
     } while(continueGame);
-    
-    console.log(`Score: ${score}/${validGames}`);
 
-    return score > validGames / 2;
+    const { message, isPlayerWinning } = getScore();
+    
+    console.log(message);
+    return isPlayerWinning;
+}
+
+
+let continueGame;
+let validGames;
+let score;
+
+
+function initGame() {
+    continueGame = true;
+    validGames = 0;
+    score = 0;
+}
+
+
+function getScore() {
+    return {
+        message: `Score: ${score}/${validGames}`,
+        isPlayerWinning: score > validGames / 2
+    }
 }
