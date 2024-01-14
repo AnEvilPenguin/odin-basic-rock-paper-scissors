@@ -152,22 +152,33 @@ function playButtonClicked(buttonName) {
     const computerChoice = getComputerChoice();
     const playerChoice = buttonName.toLowerCase();
 
-    const resultDiv = document.querySelector('div.results');
-    const existingText = resultDiv.querySelector('p');
-
-    if (existingText) {
-        resultDiv.removeChild(existingText);
-    }
+    const { divElement: resultDiv, textElement: resultText } = getTextFromDiv('div.results');
 
     const result = playRound(playerChoice, computerChoice);
 
+    resultText.innerText = processGameResult(result, playerChoice, computerChoice);
+
+    resultDiv.appendChild(resultText);
+
+    const { divElement: scoreDiv, textElement: scoreText } = getTextFromDiv('div.score');
+
+    const { message } = getScore();
+    scoreText.innerText = message;
+
+    scoreDiv.appendChild(scoreText)
+}
+
+
+function getTextFromDiv(query) {
+    const div = document.querySelector(query);
+    const existingText = div.querySelector('p');
+
+    if (existingText) {
+        div.removeChild(existingText);
+    }
+
     const newText = document.createElement('p');
-    newText.innerText = processGameResult(result, playerChoice, computerChoice);
-
-    resultDiv.appendChild(newText);
-
-
-    // TODO update score
+    return { divElement: div, textElement: newText };
 }
 
 const playButtonList = document.querySelectorAll('button.play');
