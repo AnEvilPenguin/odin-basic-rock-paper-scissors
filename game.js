@@ -96,7 +96,7 @@ function game(bestOf = 5) {
         throw new Error('bestOf required to be odd number');
     }
 
-    initGame();
+    newGame();
 
     do {
         const computerSelection = getComputerChoice();
@@ -129,7 +129,7 @@ let validGames;
 let score;
 
 
-function initGame() {
+function newGame() {
     continueGame = true;
     validGames = 0;
     score = 0;
@@ -146,7 +146,7 @@ function getScore() {
 
 function playButtonClicked(buttonName) {
     if (continueGame == null) {
-        initGame();
+        newGame();
     }
 
     const computerSelection = getComputerChoice();
