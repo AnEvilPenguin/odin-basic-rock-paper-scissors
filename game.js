@@ -109,7 +109,7 @@ function game(bestOf = 5) {
 
         const result = playRound(playerSelection, computerSelection);
 
-        console.log(processGameResult(result, playerChoice, computerChoice));
+        console.log(processGameResult(result, playerSelection, computerSelection));
 
         if (validGames === bestOf) {
             continueGame = false;
@@ -149,14 +149,14 @@ function playButtonClicked(buttonName) {
         initGame();
     }
 
-    const computerChoice = getComputerChoice();
-    const playerChoice = buttonName.toLowerCase();
+    const computerSelection = getComputerChoice();
+    const playerSelection = buttonName.toLowerCase();
 
     const { divElement: resultDiv, textElement: resultText } = getTextFromDiv('div.results');
 
-    const result = playRound(playerChoice, computerChoice);
+    const result = playRound(playerSelection, computerSelection);
 
-    resultText.innerText = processGameResult(result, playerChoice, computerChoice);
+    resultText.innerText = processGameResult(result, playerSelection, computerSelection);
 
     resultDiv.appendChild(resultText);
 
